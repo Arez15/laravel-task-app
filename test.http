@@ -1,0 +1,54 @@
+@baseUrl = http://127.0.0.1:8000
+@taskId = 1
+
+### 1. Ambil semua task (pagination default)
+GET {{baseUrl}}/tasks
+Accept: application/json
+
+### 2. Ambil task dengan filter status dan per_page
+GET {{baseUrl}}/tasks?status=pending&per_page=5
+Accept: application/json
+
+### 3. Buat task baru (default status: pending)
+POST {{baseUrl}}/tasks
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Konfigurasi Routing MikroTik & Firewall",
+  "description": "Uji coba rule NAT dan filter jaringan lab"
+}
+
+### 4. Buat task baru dengan status in_progress
+POST {{baseUrl}}/tasks
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Testing Endpoint TaskService",
+  "description": "Verifikasi respons JSON dan validasi field",
+  "status": "in_progress"
+}
+
+### 5. Perbarui task (ubah judul, deskripsi, atau status)
+PUT {{baseUrl}}/tasks/{{taskId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Konfigurasi Routing MikroTik & Firewall (Revisi)",
+  "description": "Update catatan konfigurasi",
+  "status": "in_progress"
+}
+
+### 6. Tandai task sebagai selesai (mengisi completed_at)
+PATCH {{baseUrl}}/tasks/{{taskId}}/complete
+Accept: application/json
+
+### 7. Hapus task berdasarkan ID
+DELETE {{baseUrl}}/tasks/{{taskId}}
+Accept: application/json
+
+### 8. Uji error validasi status tidak valid (ekspektasi HTTP 422)
+GET {{baseUrl}}/tasks?status=invalid_status
+Accept: application/json
